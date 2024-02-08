@@ -21,7 +21,8 @@ jobs:
     name: create matrix from repo languages
     runs-on: ubuntu-latest
     steps:
-      - name: see languages
+      - name: grab languages
+        id: languages
         run: | 
           echo "LANGUAGES<<EOF" >> $GITHUB_OUTPUT
           echo "$(curl \
@@ -30,6 +31,9 @@ jobs:
           --header 'content-type: application/json' \
            | jq -r 'keys | join(",")')" >> $GITHUB_OUTPUT 
           echo "EOF" >> $GITHUB_OUTPUT
+      - name: see variable
+        run: 
+          echo ${{ steps.languages.outputs.LANGUAGES }}
       # - name: grab languages from api
       #   run: |
       #     echo 'languages<<EOF' >> $GITHUB_OUTPUT
