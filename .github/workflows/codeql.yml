@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: see languages
         run: | 
-          curl -s -H 'Accept: application/vnd.github.v3+json' -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' 'https://api.github.com/repos/${{ github.repository }}/languages | jq -r 'keys | join(",")')
+          curl -s -H 'Accept: application/vnd.github.v3+json' -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' 'https://api.github.com/repos/${{ github.repository }}/languages | jq -r 'keys | join(",")
       - name: grab languages from api
         run: |
           echo 'languages<<EOF' >> $GITHUB_OUTPUT
