@@ -31,6 +31,7 @@ jobs:
           --header 'content-type: application/json' \
            | jq 'keys' )" >> $GITHUB_OUTPUT 
           echo "EOF" >> $GITHUB_OUTPUT
+          echo $LANGUAGES
 
       - name: see variable
         run: 
