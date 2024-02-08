@@ -31,6 +31,11 @@ jobs:
           --header 'content-type: application/json' \
            | jq 'keys')" >> $GITHUB_OUTPUT 
           echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: see variable
+        run: 
+          echo "${{ steps.languages.outputs.LANGUAGES }}"
+
       - name: transform variable
         id: transform
         run: |
