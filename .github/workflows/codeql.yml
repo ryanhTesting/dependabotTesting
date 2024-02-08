@@ -33,7 +33,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
       - name: see variable
         run: 
-          echo "${{ steps.languages.outputs.LANGUAGES }}"
+          echo '${{ steps.languages.outputs.LANGUAGES }}'
       # - name: grab languages from api
       #   run: |
       #     echo 'languages<<EOF' >> $GITHUB_OUTPUT
