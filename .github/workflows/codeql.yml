@@ -29,7 +29,7 @@ jobs:
         run: |
           LANGUAGES=$(curl -s https://api.github.com/repos/${{ github.repository }}/languages | jq -r 'keys_unsorted')
           echo "::set-output name=languages::$LANGUAGES"
-          echo LANGUAGES
+          echo $LANGUAGES
       - name: See Languages
         run: echo ${{ steps.languages.outputs.languages }}
 
