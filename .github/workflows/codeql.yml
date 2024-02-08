@@ -26,7 +26,6 @@ jobs:
           echo 'languages<<EOF' >> $GITHUB_OUTPUT
           echo "$(curl -s -H 'Accept: application/vnd.github.v3+json' -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' 'https://api.github.com/repos/${{ github.repository }}/languages | jq -r 'keys | join(",")')" >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
-        env:
 
   # analyze:
   #   name: new codeql workflow
