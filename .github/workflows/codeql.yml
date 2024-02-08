@@ -29,6 +29,8 @@ jobs:
         run: |
           LANGUAGES=$(curl -s https://api.github.com/repos/${{ github.repository }}/languages | jq -r 'keys | join(",")')
           echo "::set-output name=languages::$LANGUAGES"
+      - name: See Languages
+        run: echo ${{ steps.languages.outputs.languages }}
 
   build:
     needs: get_languages
@@ -37,13 +39,6 @@ jobs:
       matrix:
         language: ${{ fromJson(needs.get_languages.outputs.languages) }}
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
 
       # Add your subsequent job steps here, using the matrix variable ${{ matrix.language }} as needed
       - name: Print Language
