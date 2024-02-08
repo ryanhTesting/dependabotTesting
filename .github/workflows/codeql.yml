@@ -23,12 +23,16 @@ jobs:
     steps:
       - name: see languages
         run: | 
-          curl -s -H 'Accept: application/vnd.github.v3+json' -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' 'https://api.github.com/repos/${{ github.repository }}/languages | jq -r 'keys | join(",")'
-      - name: grab languages from api
-        run: |
-          echo 'languages<<EOF' >> $GITHUB_OUTPUT
-          echo "$(curl -s -H 'Accept: application/vnd.github.v3+json' -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' 'https://api.github.com/repos/${{ github.repository }}/languages | jq -r 'keys | join(",")')" >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+          curl \
+          --url https://api.github.com/repos/${{ github.repository }}/languages \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+           | jq -r 'keys | join(",")'
+      # - name: grab languages from api
+      #   run: |
+      #     echo 'languages<<EOF' >> $GITHUB_OUTPUT
+      #     echo "$(curl -s -H 'Accept: application/vnd.github.v3+json' -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' 'https://api.github.com/repos/${{ github.repository }}/languages | jq -r 'keys | join(",")')" >> $GITHUB_OUTPUT
+      #     echo 'EOF' >> $GITHUB_OUTPUT
 
   # analyze:
   #   name: new codeql workflow
