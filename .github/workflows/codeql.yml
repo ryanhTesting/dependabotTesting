@@ -29,7 +29,7 @@ jobs:
           --url https://api.github.com/repos/${{ github.repository }}/languages \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' \
-           | jq 'keys' | sed 's/\[\]/\{\}/g' )" >> $GITHUB_OUTPUT 
+           | jq 'keys' )" >> $GITHUB_OUTPUT 
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: see variable
@@ -39,7 +39,7 @@ jobs:
       - name: transform variable
         id: transform
         run: |
-          echo "LANGUAGES=$(echo ${{ steps.languages.outputs.LANGUAGES }} )" >> $GITHUB_OUTPUT
+          echo "LANGUAGES=$(echo '${{ steps.languages.outputs.LANGUAGES }}' | sed 's/\[\]/\{\}/g' )" >> $GITHUB_OUTPUT
       - name: see variable
         run: 
           echo '${{ steps.transform.outputs.LANGUAGES }}'
