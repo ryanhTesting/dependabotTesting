@@ -19,12 +19,31 @@ jobs:
           echo "$(curl -s https://api.github.com/repos/${{ github.repository }}/languages | jq -r 'keys_unsorted')" >> $GITHUB_OUTPUT 
           echo "EOF" >> $GITHUB_OUTPUT
 
-  build:
+  analyze:
+    name: Analyze
     needs: get_languages
     runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
     strategy:
+      fail-fast: false
       matrix:
         language: ${{ fromJson(needs.get_languages.outputs.languages) }}
+
     steps:
-      - name: Print Language
-        run: echo "Building with ${{ matrix.language }}"
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
