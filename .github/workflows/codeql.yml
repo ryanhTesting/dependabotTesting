@@ -20,7 +20,7 @@ on:
 jobs:
   get_languages:
     runs-on: ubuntu-latest
-    output:
+    outputs:
       languages: ${{ steps.languages.outputs.LANGUAGES }}
     steps:
       - name: Get Languages
