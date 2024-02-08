@@ -20,7 +20,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
       - name: show object
         run: |
-          echo "${{ steps.languages.outputs.LANGUAGES }}"
+          echo "${{ steps.languages.output.LANGUAGES }}"
 
   analyze:
     name: Analyze
