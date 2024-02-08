@@ -35,25 +35,25 @@ jobs:
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      if: ${{inputs.languages != ""}}
+      if: inputs.languages != ""
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
         
     - name: Initialize CodeQL
-      if: ${{inputs.languages == ""}}
+      if: inputs.languages == ""
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
 
     - name: Perform CodeQL Analysis
-      if: ${{inputs.languages != ""}}
+      if: inputs.languages != ""
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
 
     - name: Perform CodeQL Analysis
-      if: ${{inputs.languages == ""}}
+      if: inputs.languages == ""
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
