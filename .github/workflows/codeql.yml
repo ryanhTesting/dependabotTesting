@@ -33,17 +33,17 @@ jobs:
       - name: See Languages
         run: echo ${{ steps.languages.outputs.languages }}
 
-  # build:
-  #   needs: get_languages
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       language: ${{ fromJson(needs.get_languages.outputs.languages) }}
-  #   steps:
+  build:
+    needs: get_languages
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: ${{ fromJson(needs.get_languages.outputs.languages) }}
+    steps:
 
-  #     # Add your subsequent job steps here, using the matrix variable ${{ matrix.language }} as needed
-  #     - name: Print Language
-  #       run: echo "Building with ${{ matrix.language }}"
+      # Add your subsequent job steps here, using the matrix variable ${{ matrix.language }} as needed
+      - name: Print Language
+        run: echo "Building with ${{ matrix.language }}"
 # jobs:
 #   matrix:
 #     name: create matrix from repo languages
