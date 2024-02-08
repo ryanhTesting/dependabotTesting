@@ -16,33 +16,65 @@ on:
     branches:
       - main
 
+
 jobs:
-  matrix:
-    name: create matrix from repo languages
+  get_languages:
     runs-on: ubuntu-latest
     steps:
-      - name: grab languages
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Get Languages
         id: languages
-        run: | 
-          echo "LANGUAGES<<EOF" >> $GITHUB_OUTPUT
-          echo "$(curl \
-          --url https://api.github.com/repos/${{ github.repository }}/languages \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' \
-           | jq 'keys' )" >> $GITHUB_OUTPUT 
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: raw curl
         run: |
-          curl \
-          --url https://api.github.com/repos/${{ github.repository }}/languages \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' \
-           | jq 'keys' 
+          LANGUAGES=$(curl -s https://api.github.com/repos/${{ github.repository }}/languages | jq -r 'keys | join(",")')
+          echo "::set-output name=languages::$LANGUAGES"
 
-      - name: see variable
-        run: 
-          echo '${{ steps.languages.outputs.LANGUAGES }}'
+  build:
+    needs: get_languages
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: ${{ fromJson(needs.get_languages.outputs.languages) }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      # Add your subsequent job steps here, using the matrix variable ${{ matrix.language }} as needed
+      - name: Print Language
+        run: echo "Building with ${{ matrix.language }}"
+# jobs:
+#   matrix:
+#     name: create matrix from repo languages
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: grab languages
+#         id: languages
+#         run: | 
+#           echo "LANGUAGES<<EOF" >> $GITHUB_OUTPUT
+#           echo "$(curl \
+#           --url https://api.github.com/repos/${{ github.repository }}/languages \
+#           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+#           --header 'content-type: application/json' \
+#            | jq 'keys' )" >> $GITHUB_OUTPUT 
+#           echo "EOF" >> $GITHUB_OUTPUT
+
+#       - name: raw curl
+#         run: |
+#           curl \
+#           --url https://api.github.com/repos/${{ github.repository }}/languages \
+#           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+#           --header 'content-type: application/json' \
+#            | jq 'keys' 
+
+#       - name: see variable
+#         run: 
+#           echo '${{ steps.languages.outputs.LANGUAGES }}'
 
       # - name: transform variable
       #   id: transform
