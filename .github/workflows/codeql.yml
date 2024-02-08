@@ -29,8 +29,8 @@ jobs:
           echo "LANGUAGES<<EOF" >> $GITHUB_OUTPUT
           echo "$(curl -s https://api.github.com/repos/${{ github.repository }}/languages | jq -r 'keys_unsorted')" >> $GITHUB_OUTPUT 
           echo "EOF" >> $GITHUB_OUTPUT
-      - name: See Languages
-        run: echo ${{ steps.languages.outputs.LANGUAGES }}
+      # - name: See Languages
+      #   run: echo ${{ steps.languages.outputs.LANGUAGES }}
 
   build:
     needs: get_languages
