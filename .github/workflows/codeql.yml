@@ -34,7 +34,7 @@ jobs:
       - name: transform variable
         id: transform
         run: |
-          echo "LANGUAGES=$(cat steps.languages.outputs.LANGUAGES | sed -e 's/[][]//g' | tr -d '"' | tr -d ' ' | tr -d '\n')" >> $GITHUB_OUTPUT
+          echo "LANGUAGES=$(cat ${{ steps.languages.outputs.LANGUAGES }} | sed -e 's/[][]//g' | tr -d '"' | tr -d ' ' | tr -d '\n')" >> $GITHUB_OUTPUT
       - name: see variable
         run: 
           echo '${{ steps.transform.outputs.LANGUAGES }}'
