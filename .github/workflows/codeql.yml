@@ -18,6 +18,9 @@ jobs:
           echo "LANGUAGES<<EOF" >> $GITHUB_OUTPUT
           echo "$(curl -s https://api.github.com/repos/${{ github.repository }}/languages | jq ' with_entries( select(.key|contains("Java" | "JavaScript" | "Kotlin" | "TypeScript" | "C++" | "C" | "Ruby" | "Python" | "Swift" | "Go" ) ) )' | jq -r 'keys_unsorted' )" >> $GITHUB_OUTPUT 
           echo "EOF" >> $GITHUB_OUTPUT
+      - name: show object
+        run: |
+          echo "${{ steps.languages.outputs.LANGUAGES }}"
 
   analyze:
     name: Analyze
