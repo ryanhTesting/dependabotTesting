@@ -25,13 +25,11 @@ jobs:
         id: languages
         run: | 
           echo "LANGUAGES<<EOF" >> $GITHUB_OUTPUT
-          echo "\"" >> $GITHUB_OUTPUT
-          echo "$(curl \
+          echo "\"$(curl \
           --url https://api.github.com/repos/${{ github.repository }}/languages \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' \
-           | jq 'keys')" >> $GITHUB_OUTPUT 
-          echo "\"" >> $GITHUB_OUTPUT
+           | jq 'keys')\"" >> $GITHUB_OUTPUT 
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: see variable
