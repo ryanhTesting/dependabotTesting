@@ -34,7 +34,7 @@ jobs:
 
       - name: see variable
         run: 
-          echo "${{ steps.languages.outputs.LANGUAGES }}"
+          echo '${{ steps.languages.outputs.LANGUAGES }}'
 
       - name: transform variable
         id: transform
